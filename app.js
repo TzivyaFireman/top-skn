@@ -32,8 +32,10 @@ const fs = require('fs');
 const path = require('path');
 
 function isInvalidSectionLine(line) {
-  // 1–3 ספרות, רווח(ים), 1–3 ספרות, רווח(ים) — לפחות 4 קבוצות
-  const invalidPattern = /^\s*(\d{1,3}\s+){3,}\d{1,3}(?:\s|$)/;
+  // ארבע קבוצות של 1–3 ספרות:
+  // - שלוש הראשונות מופרדות ברווח אחד או יותר
+  // - הרביעית מופרדת ברווח או בסוף שורה
+  const invalidPattern = /^\s*\d{1,3}\s+\d{1,3}\s+\d{1,3}\s+\d{1,3}(\s|$)/;
   return invalidPattern.test(line);
 }
 
