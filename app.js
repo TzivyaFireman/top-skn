@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const formidable = require('formidable');
 const iconv = require('iconv-lite');
+const PORT = process.env.PORT || 3000;
 
 function isInvalidSectionLine(line) {
   // ארבע קבוצות של 1–3 ספרות:
@@ -121,4 +122,4 @@ const server = http.createServer((req, res) => {
 
 });
 
-server.listen(3000, () => console.log('Server running on port 3000'));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
