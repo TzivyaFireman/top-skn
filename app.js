@@ -7,7 +7,8 @@ function isInvalidSectionLine(line) {
   // ארבע קבוצות של 1–3 ספרות:
   // - שלוש הראשונות מופרדות ברווח אחד או יותר
   // - הרביעית מופרדת ברווח או בסוף שורה
-  const invalidPattern = /^\s*\d{1,3}\s+\d{1,3}\s+\d{1,3}\s+\d{1,3}(\s|$)/;
+  // const invalidPattern = /^\s*\d{1,3}\s+\d{1,3}\s+\d{1,3}\s+\d{1,3}(\s|$)/;
+const invalidPattern = /(?:^|\s)\d{1,4}(?:\s+\d{1,4}){2,3}(?=\s|$)/;
   return invalidPattern.test(line);
 }
 
