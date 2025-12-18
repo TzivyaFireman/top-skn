@@ -2,6 +2,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const formidable = require('formidable');
 
 function isInvalidSectionLine(line) {
   // ארבע קבוצות של 1–3 ספרות:
@@ -21,6 +22,37 @@ function findInvalidLines(filePath) {
 const filesDir = './files';
 
 const server = http.createServer((req, res) => {
+  // העלאת קבצים
+  if (req.method === 'POST' && req.url === '/upload') {
+    const form = new formidable.IncomingForm({
+      multiples: true,
+      uploadDir: filesDir,
+      keepExtensions: true
+    });
+
+    form.parse(req, (err, fields, files) => {
+      if (err) {
+        res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('שגיאה בהעלאת הקובץ');
+        return;
+      }
+
+      const uploaded = Array.isArray(files.files)
+        ? files.files
+        : [files.files];
+
+      uploaded.forEach(file => {
+        const targetPath = path.join(filesDir, file.originalFilename);
+        fs.renameSync(file.filepath, targetPath);
+      });
+
+      res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('הקבצים נשמרו בהצלחה');
+    });
+
+    return;
+  }
+
   let report = '';
   for (const file of fs.readdirSync(filesDir)) {
     const fullPath = path.join(filesDir, file);
