@@ -28,7 +28,7 @@ function findInvalidLines(filePath) {
 const filesDir = './files';
 
 const server = http.createServer((req, res) => {
-  if (req.method === 'GET' && req.url === '/delete-all') {
+if (req.method === 'POST' && req.url === '/delete-all') {
   fs.readdirSync(filesDir).forEach(file => {
     const fullPath = path.join(filesDir, file);
     if (fs.statSync(fullPath).isFile()) {
